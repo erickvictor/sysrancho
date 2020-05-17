@@ -1,40 +1,22 @@
-import React, { useState, useContext } from 'react'
-// import {useForm} from 'react-hook-form'
+import React from 'react'
+import {useForm} from 'react-hook-form'
 import moment from 'moment'
-import { GlobalContext } from '../context/GlobalState'
 require('moment/locale/pt-br')
 moment.locale('pt-br')
 console.log(moment.locale())
 
 
 export const Appointment = () => {
-  const [date, setDate] = useState('')
-  const [meal, setMeal] = useState('')
+  const {register, handleSubmit} = useForm()
 
-  const { addTransaction } = useContext(GlobalContext)
-
-  const onSubmit = e => {
-    e.preventDefault()
-    
-
-    const newTransaction = {
-      date,
-      meal,
-    }
-    console.log(e)
-    addTransaction(newTransaction)
-  }
-
-  // const {register, handleSubmit} = useForm()
-
-  // const onSubmit = (data) => console.log(data)
+  const onSubmit = (data) => console.log(data)
 
   var newDays = []
   for (var i = 1; i < 8; i++) {
     // console.log(i)
-    newDays[i] = moment().add(i, 'days')
+    newDays[i-1] = moment().add(i, 'days')
   }
-  // console.log(newDays)
+  // console.log(newDays[1].format('D/MM/YYYY'))
   const formato = 'D/MM/YYYY dddd'
   const formato2 = 'D/MM/YYYY'
 
@@ -42,7 +24,7 @@ export const Appointment = () => {
   return (
     <>
       <div className="my-3 p-3 bg-white rounded shadow-sm">
-        <form onSubmit={onSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <h6 className="border-bottom border-gray pb-2 mb-0">Reserva Refeições</h6>
           <div className="table-responsive">
             
@@ -67,10 +49,10 @@ export const Appointment = () => {
                         <th className="col text-center form-check" key={item}>
                           <input 
                             className='form-check-input ml-0' 
-                            name={ item.format(formato2) } 
-                            value='cafe' 
-                            type='checkbox'
-                            onChange={(e) => setMeal(e.target.checked)}
+                            name='cafe' 
+                            value={ item.format(formato2) } 
+                            type='checkbox' 
+                            ref={register} 
                           />
                         </th>
                       )
@@ -83,10 +65,10 @@ export const Appointment = () => {
                         <th className="col text-center form-check" key={item}>
                           <input 
                             className='form-check-input ml-0' 
-                            name={ item.format(formato2) } 
-                            value='almoco' 
-                            type='checkbox'
-                            onChange={(e) => setMeal(e.target.value)}
+                            name='almoco' 
+                            value={ item.format(formato2) } 
+                            type='checkbox' 
+                            ref={register} 
                           />
                         </th>
                       )
@@ -99,10 +81,10 @@ export const Appointment = () => {
                         <th className="col text-center form-check" key={item}>
                           <input 
                             className='form-check-input ml-0' 
-                            name={ item.format(formato2) } 
-                            value='jantar'  
-                            type='checkbox'
-                            onChange={(e) => setMeal(e.target.value)}
+                            name='jantar' 
+                            value={ item.format(formato2) } 
+                            type='checkbox' 
+                            ref={register} 
                           />
                         </th>
                       )
@@ -126,6 +108,10 @@ export const Appointment = () => {
         <h6 className="border-bottom border-gray pb-2 mb-0">Refeições Agendadas</h6>
         <div className='row'>
           <div className='col-sm'>
+          <label className="form-custom">One
+            <input type="checkbox" />
+            <span className="checkmark"></span>
+          </label>
             <ul className="list-unstyled mt-2">
               <li><b>Café</b>
                 <ul>

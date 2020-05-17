@@ -1,15 +1,23 @@
 import React from 'react'
 import './App.css'
 import { Header } from './components/Header'
-import { Appointment } from './components/Appointment'
+// import { Appointment } from './components/Appointment'
+import { Appointment4 } from './components/Appointment4'
+import { createStore, StateMachineProvider } from 'little-state-machine'
+
+createStore({
+  data: {}
+})
 
 
 function App() {
   return (
-    <div className='container'>
-      <Header />
-      <Appointment />
-    </div>
+    <StateMachineProvider>
+      <div className='container'>
+        <Header />
+        <Appointment4 />
+      </div>
+    </StateMachineProvider>
   );
 }
 
